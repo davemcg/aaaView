@@ -6,7 +6,7 @@
 #' @export
 create_uniprot_data <- function(){
   library(dplyr)
-  system('wget https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz')
+  system('wget -q https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz')
   uniprotDB <- Biostrings::readAAStringSet('uniprot_sprot.fasta.gz')
   #extract protein names
   proteins <- uniprotDB@ranges %>% data.frame() %>% as_tibble(rownames = 'index') %>%
