@@ -3,12 +3,20 @@ Amino Acid Alignment Viewer
 
 # Quick Start
 
-in R (to install needed packages):
+in R:
+```
 devtools::install_github('davemcg/aaaView')
-
-on command line (to clone package):
-git clone https://github.com/davemcg/aaaView.git
-(yes I should really wrap this up to avoid this step, but maybe later)
+library(aaaView)
+# install latest uniprot swiss-prot database for app
+create_uniprot_data() # downloads latest swiss prot db
+# ALTERNATIVELY download pre-made data file (made on August 10th, 2022)
+# and then unzip and move to proper dir for app
+system("wget -q https://hpc.nih.gov/~mcgaugheyd/aaaView/peviz_uniprot_data.Rdata.gz")
+system("gunzip peviz_uniprot_data.Rdata.gz"); system(paste0("mkdir -p ", system.file('app', package = "aaaView"), '/data/'))
+system(paste0("mv peviz_uniprot_data.Rdata ", system.file('app', package = "aaaView"), '/data/'))
+# OK
+launch() # should launch the app!
+```
 
 # What it does
 For a set of proteins visualize [MSA](https://en.wikipedia.org/wiki/Multiple_sequence_alignment) and build a tree across user specified proteins. aaaView is built around UniProt data, but can theoretically use generic protein fasta. Well, it will probably explode as the app parses out information from the fasta to use in the visualization....but in theory that could be worked around with some annoying coding. Which I haven't done yet. 
