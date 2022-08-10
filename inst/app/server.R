@@ -15,7 +15,7 @@ server <- function(input, output, session) {
   db <- reactive({
     req(input$Database)
     if (input$Database == 'Swiss-Prot'){
-      cat('sp')
+      #cat('sp')
       load('./data/peviz_uniprot_data.Rdata')
     } else {
       req(input$local_fasta)
@@ -103,7 +103,7 @@ server <- function(input, output, session) {
 
     # if uniprot annotations desired
     if (input$primary_protein != ''){
-      cat(input$primary_protein)
+      #cat(input$primary_protein)
       selected_protein <- stringr::str_split(input$primary_protein,
                                              '\\|')[[1]][2]
 
