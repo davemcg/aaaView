@@ -21,7 +21,7 @@ in R:
 devtools::install_github('davemcg/aaaView')
 library(aaaView)
 # install latest uniprot swiss-prot database for app
-create_uniprot_data() # downloads latest swiss prot db
+create_uniprot_data() # downloads latest swiss prot db and turns them into two R objects for the app. Takes a few minutes to run. Go get a snack.
 # ALTERNATIVELY download pre-made data file (made on August 10th, 2022)
 # and then unzip and move to proper dir for app
 system("wget -q https://hpc.nih.gov/~mcgaugheyd/aaaView/peviz_uniprot_data.Rdata.gz")
