@@ -1,0 +1,36 @@
+Package: aaaView
+Type: Package
+Title: aaaView
+Version: 0.1.000
+Authors@R:
+    person(given = "David",
+           family = "McGaughey",
+           role = c("aut", "cre"),
+           email = "mcgaugheyd@mail.nih.gov",
+           comment = c(ORCID = "Y0000-0002-9224-2888"))
+Description: Shiny App for multiple sequence alignment (msa) and tree 
+    visualization of proteins. Interfaces with UniProt to overlay protein domains.
+License: LICENSE
+Encoding: UTF-8
+LazyData: true
+biocViews:
+Imports:
+  ape,
+  Biostrings,
+  dplyr (>= 1.0.0),
+  DT,
+  ggforce,
+  ggplot2,
+  ggmsa,
+  ggtree,
+  httr,
+  jsonlite,
+  msa,
+  purrr,
+  seqinr,
+  shiny (>= 1.7.0),
+  stringr,
+  tidyr,
+  xml2
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.1.2
