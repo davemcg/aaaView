@@ -1,6 +1,12 @@
 # aaaView
 Amino Acid Alignment Viewer
 
+# In action
+https://user-images.githubusercontent.com/10225430/183989784-67965cf0-9bec-4628-8072-785dbe87edd3.mp4
+
+
+
+
 # Quick Start
 
 in R:
