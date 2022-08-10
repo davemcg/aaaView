@@ -1,6 +1,13 @@
 # aaaView
 Amino Acid Alignment Viewer
 
+# Two visualizations
+## MSA (with UniProt feature underlaid)
+<img width="800" alt="Screen Shot 2022-08-10 at 4 34 45 PM" src="https://user-images.githubusercontent.com/10225430/184014939-86cf3c0b-5c20-41f3-9d28-18485fbe18b6.png">
+
+## Tree
+<img width="800" alt="Screen Shot 2022-08-10 at 4 34 51 PM" src="https://user-images.githubusercontent.com/10225430/184014951-7347a509-dcb2-4ffa-b77a-59a358b654c1.png">
+
 # In action
 https://user-images.githubusercontent.com/10225430/183989784-67965cf0-9bec-4628-8072-785dbe87edd3.mp4
 
