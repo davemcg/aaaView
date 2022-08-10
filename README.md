@@ -25,7 +25,7 @@ launch() # should launch the app!
 ```
 
 # What it does
-For a set of proteins visualize [MSA](https://en.wikipedia.org/wiki/Multiple_sequence_alignment) and build a tree across user specified proteins. aaaView is built around UniProt data, but can theoretically use generic protein fasta. Well, it will probably explode as the app parses out information from the fasta to use in the visualization....but in theory that could be worked around with some annoying coding. Which I haven't done yet. 
+For a user-defined set of proteins visualize [MSA](https://en.wikipedia.org/wiki/Multiple_sequence_alignment) and build a relationahip tree. aaaView is built around UniProt data, but can theoretically use generic protein fasta. Well, it will probably explode as the app parses out information from the fasta to use in the visualization....but in theory that could be worked around with some annoying coding. Which I haven't done yet. 
 
 The app can also overlay known protein domains (via uniprot?) over the MSA to help with quick(er) interpretation of the substance of evolutionary differences.
 
