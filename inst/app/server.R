@@ -6,7 +6,7 @@ library(jsonlite)
 library(xml2)
 library(ggplot2)
 # input in uniprot db
-#load('./data/peviz_uniprot_data.Rdata')
+#load('inst/app/data/peviz_uniprot_data.Rdata')
 
 
 server <- function(input, output, session) {
@@ -101,7 +101,7 @@ server <- function(input, output, session) {
     names(consensus) <- 'Consensus'
     tidy_msa <- ggmsa::tidy_msa(c(msa_align@unmasked, consensus) )
 
-    # if uniprot annotations desired
+    # if uniprot annotations desired ------
     if (input$primary_protein != ''){
       #cat(input$primary_protein)
       selected_protein <- stringr::str_split(input$primary_protein,
@@ -124,7 +124,8 @@ server <- function(input, output, session) {
         left_join(uniprot_domains %>% dplyr::select(type, description, evidences), by = 'evidences')
       # create new data frame with UniProt annotation
       select_protein_aa <- ggmsa::tidy_msa(msa_align@unmasked ) %>% filter(name == input$primary_protein)
-      select_protein_aa <- select_protein_aa %>% mutate(seq = row_number()) %>% left_join(expand_seq, by = 'seq') %>%
+      select_protein_aa <- select_protein_aa %>% filter(character != '-') %>%
+        mutate(seq = row_number()) %>% left_join(expand_seq, by = 'seq') %>%
         filter(evidences != 'NULL') %>%
         mutate(Protein = paste0(type, ': ', description)) %>%
         dplyr::select(Protein, position) %>%
