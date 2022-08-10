@@ -1,5 +1,5 @@
 # aaaView
-Amino Acid Alignment Viewer
+<b>A</b>mino <b>A</b>cid <b>A</b>lignment <b>View</b>er
 
 # Two visualizations
 ## MSA (with UniProt feature underlaid)
