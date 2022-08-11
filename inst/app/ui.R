@@ -23,7 +23,7 @@ ui <- fluidPage(
     fluidRow(
       column(8,
              selectizeInput(inputId = "primary_protein",
-                            label = "Add UniProt domain(s) based on one protein:",
+                            label = "Add UniProt features from:",
                             choices=NULL,
                             multiple=FALSE,
                             options = list(placeholder = 'Optional'),
