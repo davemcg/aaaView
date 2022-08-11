@@ -6,7 +6,7 @@
 #' @export
 create_uniprot_data <- function(){
   library(dplyr)
-  system('wget -q https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz')
+  download.file('https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz', destfile = 'uniprot_sprot.fasta.gz')
   uniprotDB <- Biostrings::readAAStringSet('uniprot_sprot.fasta.gz')
   #extract protein names
   proteins <- uniprotDB@ranges %>% data.frame() %>% as_tibble(rownames = 'index') %>%
@@ -15,6 +15,6 @@ create_uniprot_data <- function(){
     rowwise() %>%
     mutate(id = stringr::str_split(names, '\\|| ')[[1]][2]) %>%
     ungroup()
-  system(paste0('mkdir -p ', system.file('app', package = "aaaView"), '/data/'))
+  dir.create(paste0(system.file('app', package = "aaaView"), '/data/'), showWarnings = FALSE)
   save(proteins, uniprotDB, file = paste0(system.file('app', package = "aaaView"), '/data/peviz_uniprot_data.Rdata'), compress = FALSE)
 }
