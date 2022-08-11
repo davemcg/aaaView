@@ -18,7 +18,8 @@ https://user-images.githubusercontent.com/10225430/183989784-67965cf0-9bec-4628-
 
 in R:
 ```
-devtools::install_github('davemcg/aaaView')
+remotes::install_github('davemcg/aaaView')
+# if the above fails...then you likely need to run " install.packages("remotes") "
 library(aaaView)
 # install latest uniprot swiss-prot database for app
 create_uniprot_data() # downloads latest swiss prot db and turns them into two R objects for the app. Takes a few minutes to run. Go get a snack.
