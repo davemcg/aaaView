@@ -36,6 +36,23 @@ For a user-defined set of proteins visualize [MSA](https://en.wikipedia.org/wiki
 
 The app can also overlay known protein domains (via uniprot?) over the MSA to help with quick(er) interpretation of the substance of evolutionary differences.
 
+# Custom fasta
+1. uniprot.org
+2. Search something
+<img width="600" alt="Screen Shot 2022-08-10 at 8 29 08 PM" src="https://user-images.githubusercontent.com/10225430/184045662-c4a6ef9a-d36b-433e-8540-9d93c88591c9.png">
+
+3. Click download in fasta format (compressed will ensure it downloads a file)
+<img width="600" alt="Screen Shot 2022-08-10 at 8 29 16 PM" src="https://user-images.githubusercontent.com/10225430/184045714-dc4f418d-c999-43ab-ba93-98475a984dea.png">
+
+<img width="600" alt="Screen Shot 2022-08-10 at 8 29 22 PM" src="https://user-images.githubusercontent.com/10225430/184045753-bbad3b4d-f8b5-4d2e-8e55-5cefe45f01ff.png">
+
+4. Load into aaaView
+
+<img width="596" alt="Screen Shot 2022-08-10 at 8 31 14 PM" src="https://user-images.githubusercontent.com/10225430/184045795-bc66c714-6001-489c-a56f-47eb2c7a2710.png">
+
+5. Profit
+
+
 # Some related tools
 
   - https://github.com/plotly/react-msa-viewer
