@@ -12,7 +12,7 @@ Description: Shiny App for multiple sequence alignment (msa) and tree
     visualization of proteins. Interfaces with UniProt to overlay protein domains.
 License: LICENSE
 Encoding: UTF-8
-LazyData: true
+LazyData: false
 biocViews:
 Imports:
   ape,
@@ -21,16 +21,17 @@ Imports:
   DT,
   ggforce,
   ggplot2,
-  ggmsa,
   ggtree,
   httr,
   jsonlite,
   msa,
   purrr,
   seqinr,
-  shiny (>= 1.7.0),
+  shiny (>= 1.6.0),
   stringr,
   tidyr,
   xml2
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.2
+Depends: 
+    R (>= 2.10)
