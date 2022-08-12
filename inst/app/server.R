@@ -65,7 +65,7 @@ server <- function(input, output, session) {
     # selectize for color
     if (is.null(query[['color']])){
       updateSelectizeInput(session, 'color',
-                        choices = colnames(ggmsa:::scheme_AA)[colnames(ggmsa:::scheme_AA) != 'CN6'],
+                        choices = colnames(scheme_AA)[colnames(scheme_AA) != 'CN6'],
                         selected = 'Chemistry_AA',
                         server = TRUE)
 
@@ -99,7 +99,7 @@ server <- function(input, output, session) {
     # add consensus sequence
     consensus <- AAStringSet(x=msaConsensusSequence(msa_align))
     names(consensus) <- 'Consensus'
-    tidy_msa <- ggmsa::tidy_msa(c(msa_align@unmasked, consensus) )
+    tidy_msa <- aaaView::tidy_msa(c(msa_align@unmasked, consensus) )
 
     # if uniprot annotations desired ------
     if (input$primary_protein != ''){
@@ -123,7 +123,7 @@ server <- function(input, output, session) {
         data.frame() %>%
         left_join(uniprot_domains %>% dplyr::select(type, description, evidences), by = 'evidences')
       # create new data frame with UniProt annotation
-      select_protein_aa <- ggmsa::tidy_msa(msa_align@unmasked ) %>% filter(name == input$primary_protein)
+      select_protein_aa <- aaaView::tidy_msa(msa_align@unmasked ) %>% filter(name == input$primary_protein)
       select_protein_aa <- select_protein_aa %>% filter(character != '-') %>%
         mutate(seq = row_number()) %>% left_join(expand_seq, by = 'seq') %>%
         filter(evidences != 'NULL') %>%
