@@ -27,7 +27,7 @@ Imports:
   msa,
   purrr,
   seqinr,
-  shiny (>= 1.6.0),
+  shiny (>= 1.7.0),
   stringr,
   tidyr,
   xml2

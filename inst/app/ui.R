@@ -2,7 +2,7 @@ library(shiny)
 
 ui <- fluidPage(
 
-  titlePanel("Aminio Acid Alignment Viewer"),
+  titlePanel("Amino Acid Alignment Viewer"),
 
   fluidPage(
 

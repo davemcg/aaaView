@@ -4,7 +4,7 @@
 \alias{create_uniprot_data}
 \title{Download aaaView UniProt (Swiss Pro) data}
 \usage{
-create_uniprot_data()
+create_uniprot_data(local = FALSE, uniprot_sprot = "uniprot_sprot.fasta.gz")
 }
 \value{
 Puts peviz_uniprot_data.Rdata in app folder

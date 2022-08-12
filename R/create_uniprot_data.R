@@ -4,10 +4,16 @@
 #' @examples
 #' \dontrun{create_uniprot_data()}
 #' @export
-create_uniprot_data <- function(){
+#'
+create_uniprot_data <- function(local = FALSE, uniprot_sprot = 'uniprot_sprot.fasta.gz'){
   library(dplyr)
-  download.file('https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz', destfile = 'uniprot_sprot.fasta.gz')
-  uniprotDB <- Biostrings::readAAStringSet('uniprot_sprot.fasta.gz')
+  options(timeout = max(300, getOption("timeout")))
+  if (local){
+    uniprotDB <- Biostrings::readAAStringSet(uniprot_sprot)
+  } else {
+    download.file('https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz', destfile = 'uniprot_sprot.fasta.gz')
+    uniprotDB <- Biostrings::readAAStringSet('uniprot_sprot.fasta.gz')
+  }
   #extract protein names
   proteins <- uniprotDB@ranges %>% data.frame() %>% as_tibble(rownames = 'index') %>%
     mutate(org = stringr::str_extract(names, 'OS.*OX') %>% gsub('OS\\=| OX','',.),

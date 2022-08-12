@@ -6,7 +6,7 @@ library(jsonlite)
 library(xml2)
 library(ggplot2)
 # input in uniprot db
-#load('inst/app/data/peviz_uniprot_data.Rdata')
+#load("/Library/Frameworks/R.framework/Versions/4.1/Resources/library/aaaView/app/data/peviz_uniprot_data.Rdata")
 
 
 server <- function(input, output, session) {
@@ -65,7 +65,7 @@ server <- function(input, output, session) {
     # selectize for color
     if (is.null(query[['color']])){
       updateSelectizeInput(session, 'color',
-                        choices = colnames(scheme_AA)[colnames(scheme_AA) != 'CN6'],
+                        choices = colnames(aaaView:::scheme_AA)[colnames(aaaView:::scheme_AA) != 'CN6'],
                         selected = 'Chemistry_AA',
                         server = TRUE)
 
@@ -144,8 +144,8 @@ server <- function(input, output, session) {
         mutate(Protein = case_when(name == 'Consensus' ~ 'Consensus',
                                    Type == 'Amino Acid' ~ paste(org, gene, id, sep = ' | '),
                                    TRUE ~ Protein),
-               Protein = factor(Protein, levels = rev(order_full))) %>%
-        rename(AA = character)
+               Protein = factor(Protein, levels = rev(order_full %>% unique()))) %>%
+        dplyr::rename(AA = character)
       plot_data$group <- factor(plot_data$group)
       levels(plot_data$group) = paste0(plot_data$group, " (Hundreds Position)") %>% unique()
       plot <- plot_data %>%
@@ -161,8 +161,8 @@ server <- function(input, output, session) {
         left_join(., db()$proteins[indi,], by = c('name' = 'names')) %>%
         mutate(Protein = case_when(name != 'Consensus' ~ paste(org, gene, id, sep = ' | '),
                                    TRUE ~ 'Consensus'),
-               Protein = factor(Protein, levels = rev(order_full))) %>%
-        rename(AA = character)
+               Protein = factor(Protein, levels = rev(order_full %>% unique()))) %>%
+        dplyr::rename(AA = character)
       plot_data$group <- factor(plot_data$group)
       levels(plot_data$group) = paste0(plot_data$group, " (Hundreds Position)") %>% unique()
       plot <- plot_data %>%
