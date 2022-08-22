@@ -1,7 +1,7 @@
 Package: aaaView
 Type: Package
 Title: aaaView
-Version: 0.1.000
+Version: 0.2.000
 Authors@R:
     person(given = "David",
            family = "McGaughey",
@@ -19,11 +19,13 @@ Imports:
   Biostrings,
   dplyr (>= 1.0.0),
   DT,
+  ggiraph,
   ggforce,
   ggplot2,
   ggtree,
   httr,
   jsonlite,
+  magrittr,
   msa,
   purrr,
   seqinr,

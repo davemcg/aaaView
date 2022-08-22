@@ -6,8 +6,13 @@
 \usage{
 create_uniprot_data(local = FALSE, uniprot_sprot = "uniprot_sprot.fasta.gz")
 }
+\arguments{
+\item{local}{Whether to use a local uniprot fasta}
+
+\item{uniprot_sprot}{Path to the uniprot_sprot file which can be downloaded from https://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz}
+}
 \value{
-Puts peviz_uniprot_data.Rdata in app folder
+Puts peviz_uniprot_data.Rdata in app folder wtihin aaaView R library
 }
 \description{
 Download aaaView UniProt (Swiss Pro) data
