@@ -1,4 +1,5 @@
 library(shiny)
+library(ggiraph)
 
 ui <- fluidPage(
 
@@ -51,13 +52,14 @@ ui <- fluidPage(
     br(), br(),
 
     fluidRow(width = 11,
-             plotOutput("msa", height = "auto"),
+             ggiraph::girafeOutput("msa", height = "auto"),
              plotOutput("tree")
     ),
     br(), br(),
-    fluidRow(width = 8,
-             div(DT::DTOutput('fasta_table'), style='font-size:75%'))
-  ),
+    column(8,
+           fluidRow(width = 8,
+                    div(DT::DTOutput('fasta_table'), style='font-size:75%'))
+    )),
   br(),
   fluidRow(column(4,
                   downloadButton('fasta_download', 'Download Fasta',

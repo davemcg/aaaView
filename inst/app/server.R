@@ -5,8 +5,25 @@ library(httr)
 library(jsonlite)
 library(xml2)
 library(ggplot2)
+library(ggiraph)
 # input in uniprot db
 #load("/Library/Frameworks/R.framework/Versions/4.1/Resources/library/aaaView/app/data/peviz_uniprot_data.Rdata")
+
+#load('inst/app/data/peviz_uniprot_data.Rdata')
+
+# derive original coordinates for each protein
+orig_position <- function(tidy_msa){
+  data <- list()
+  for (i in unique(tidy_msa$name)){
+    data[[i]] <- tidy_msa %>% filter(name == i, character != '-') %>%
+      mutate(orig_position = row_number())
+  }
+  tidy_msa %>% left_join(., data %>%
+                           bind_rows() %>%
+                           select(name, position, orig_position),
+                         by = c('name','position')) %>%
+    arrange(name, position)
+}
 
 
 server <- function(input, output, session) {
@@ -65,9 +82,9 @@ server <- function(input, output, session) {
     # selectize for color
     if (is.null(query[['color']])){
       updateSelectizeInput(session, 'color',
-                        choices = colnames(aaaView:::scheme_AA)[colnames(aaaView:::scheme_AA) != 'CN6'],
-                        selected = 'Chemistry_AA',
-                        server = TRUE)
+                           choices = colnames(aaaView:::scheme_AA)[colnames(aaaView:::scheme_AA) != 'CN6'],
+                           selected = 'Chemistry_AA',
+                           server = TRUE)
 
     }
   })
@@ -86,8 +103,8 @@ server <- function(input, output, session) {
     msa_align <- msa(db()$uniprotDB[as.integer(indi)], method = input$method)
 
     # build color
-    color_pick <- ggmsa:::scheme_AA[, input$color]
-    names(color_pick) <- row.names(ggmsa:::scheme_AA)
+    color_pick <- aaaView:::scheme_AA[, input$color]
+    names(color_pick) <- row.names(aaaView:::scheme_AA)
 
     # extract msa order
     order <- unmasked(msa_align) %>% data.frame() %>% row.names()
@@ -100,7 +117,8 @@ server <- function(input, output, session) {
     consensus <- AAStringSet(x=msaConsensusSequence(msa_align))
     names(consensus) <- 'Consensus'
     tidy_msa <- aaaView::tidy_msa(c(msa_align@unmasked, consensus) )
-
+    # add in original (pre MSA) position
+    tidy_msa <- orig_position(tidy_msa)
     # if uniprot annotations desired ------
     if (input$primary_protein != ''){
       #cat(input$primary_protein)
@@ -149,9 +167,9 @@ server <- function(input, output, session) {
       plot_data$group <- factor(plot_data$group)
       levels(plot_data$group) = paste0(plot_data$group, " (Hundreds Position)") %>% unique()
       plot <- plot_data %>%
-        ggplot(aes(x=Position,y=Protein, label = AA, fill = AA)) +
+        ggplot(aes(x=Position,y=Protein, label = AA, fill = AA, tooltip = orig_position)) +
         ggforce::facet_col(~ group + Type, scales = 'free_y', space = 'free')
-      height <- plot_data %>% select(group, Protein, Type) %>% unique() %>% nrow() * 35
+      height <- plot_data %>% select(group, Protein, Type) %>% unique() %>% nrow() #* 35
     } else { # no annotation plot
       plot_data <- tidy_msa %>%
         mutate(group =
@@ -166,9 +184,9 @@ server <- function(input, output, session) {
       plot_data$group <- factor(plot_data$group)
       levels(plot_data$group) = paste0(plot_data$group, " (Hundreds Position)") %>% unique()
       plot <- plot_data %>%
-        ggplot(aes(x=Position,y=Protein, label = AA, fill = AA)) +
+        ggplot(aes(x=Position,y=Protein, label = AA, fill = AA, tooltip = orig_position)) +
         facet_wrap(~group, scales = 'free_y', ncol = 1)
-      height <- plot_data %>% select(group, Protein) %>% unique() %>% nrow() * 25
+      height <- plot_data %>% select(group, Protein) %>% unique() %>% nrow() #* 25
     }
 
 
@@ -177,8 +195,10 @@ server <- function(input, output, session) {
     #output$plot <- plot
     #output
     output$plot <-  plot +
-      geom_raster() +
-      geom_text() +
+      geom_tile() +
+
+      geom_text_interactive() +
+      #ggiraph::geom_tile_interactive() +
       #cowplot::theme_cowplot() +
       theme_minimal() +
       theme(panel.grid.major = element_blank(),
@@ -211,11 +231,17 @@ server <- function(input, output, session) {
   })
 
 
-  output$msa <- renderPlot({
-    draw_msa()$plot
-  }, height =
-    eventReactive(input$Draw, {draw_msa()$height})
-  )
+  output$msa <- ggiraph::renderGirafe({
+    ggiraph::girafe(ggobj  = draw_msa()$plot,
+                    height_svg = draw_msa()$height / 3,
+                    width_svg = 18,
+                    options =
+                      list(opts_sizing(rescale = TRUE, width = .7),
+                           opts_tooltip(offx = 20, offy = 20),
+                           opts_hover_inv(css = "opacity:0.1;"),
+                           opts_hover(css = "fill:red;"))
+    )
+  })
 
   output$tree <- renderPlot({
     draw_tree()
@@ -229,15 +255,15 @@ server <- function(input, output, session) {
   })
 
   output$fasta_aligned_download <- downloadHandler(
-       filename = function() {
-         paste('data-', Sys.Date(), '_aligned.fasta', sep='')
-       },
-       content = function(con) {
-         fa <- draw_msa()$fasta
-         fa %>% filter(names != 'Consensus')
-         seqinr::write.fasta(as.list(draw_msa()$fasta %>% pull(2)), draw_msa()$fasta %>% pull(1), file.out = con)
-       }
-     )
+    filename = function() {
+      paste('data-', Sys.Date(), '_aligned.fasta', sep='')
+    },
+    content = function(con) {
+      fa <- draw_msa()$fasta
+      fa %>% filter(names != 'Consensus')
+      seqinr::write.fasta(as.list(draw_msa()$fasta %>% pull(2)), draw_msa()$fasta %>% pull(1), file.out = con)
+    }
+  )
 
   output$fasta_download <- downloadHandler(
     filename = function() {
