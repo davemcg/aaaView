@@ -6,7 +6,6 @@ ui <- fluidPage(
   titlePanel("Amino Acid Alignment Viewer"),
 
   fluidPage(
-
     fluidRow(
       column(8,
              selectInput(inputId = 'Database',
@@ -51,22 +50,26 @@ ui <- fluidPage(
     ),
     br(), br(),
 
-    fluidRow(width = 11,
-             ggiraph::girafeOutput("msa", height = "auto"),
-             plotOutput("tree")
-    ),
+    fluidRow(
+      column(
+        width = 11,
+        ggiraph::girafeOutput("msa", height = "auto"),
+        plotOutput("tree")
+      )),
     br(), br(),
-    column(8,
-           fluidRow(width = 8,
-                    div(DT::DTOutput('fasta_table'), style='font-size:75%'))
-    )),
-  br(),
-  fluidRow(column(4,
-                  downloadButton('fasta_download', 'Download Fasta',
-                                 style='background-color: #3269FF; color: #ffffff')),
-           column(4,
-                  downloadButton('fasta_aligned_download', 'Download Aligned Fasta',
-                                 style='background-color: #3269FF; color: #ffffff'))
+    fluidRow(
+      column(width = 8,
+             div(DT::DTOutput('fasta_table'), style='font-size:75%'))
+    ),
+    br(),
+    fluidRow(
+      column(width = 8,
+             downloadButton('fasta_download', 'Download Fasta',
+                            style='background-color: #3269FF; color: #ffffff'))),
+    fluidRow(
+      column(width = 8,
+             downloadButton('fasta_aligned_download', 'Download Aligned Fasta',
+                            style='background-color: #3269FF; color: #ffffff')))
   ),
-  br(), br()
+  br(), br(), br()
 )

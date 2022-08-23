@@ -1,7 +1,7 @@
 Package: aaaView
 Type: Package
 Title: aaaView
-Version: 0.2.000
+Version: 0.2.100
 Authors@R:
     person(given = "David",
            family = "McGaughey",
