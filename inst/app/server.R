@@ -45,6 +45,7 @@ server <- function(input, output, session) {
       }
       uniprotDB <- Biostrings::readAAStringSet(datapath)
 
+      if (input$Database == 'Local UniProt Fasta') {
       #extract protein names
       proteins <- uniprotDB@ranges %>% data.frame() %>% as_tibble(rownames = 'index') %>%
         mutate(org = stringr::str_extract(names, 'OS.*OX') %>% gsub('OS\\=| OX','',.),
@@ -52,6 +53,11 @@ server <- function(input, output, session) {
         rowwise() %>%
         mutate(id = stringr::str_split(names, '\\|| ')[[1]][2]) %>%
         ungroup()
+      } else {
+        proteins <- uniprotDB@ranges %>% data.frame() %>% as_tibble(rownames = 'index') %>%
+          mutate(id = names)
+      }
+
     }
     output <- list()
     output$uniprotDB <- uniprotDB
