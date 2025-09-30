@@ -120,9 +120,15 @@ server <- function(input, output, session) {
     order_full <- c('Consensus', paste(org_order, gene_order, id_order, sep = ' | '))
 
     # add consensus sequence
-    consensus <- AAStringSet(x=msaConsensusSequence(msa_align))
+    consensus_string <- msaConsensusSequence(msa_align)
+    # Replace the non-standard '?' with the standard 'X' for an unknown residue
+    consensus_string_cleaned <- gsub("?", "X", consensus_string, fixed = TRUE)
+    consensus <- AAStringSet(x = consensus_string_cleaned)
+
     names(consensus) <- 'Consensus'
     tidy_msa <- aaaView::tidy_msa(c(msa_align@unmasked, consensus) )
+
+
     # add in original (pre MSA) position
     tidy_msa <- orig_position(tidy_msa)
     # if uniprot annotations desired ------
